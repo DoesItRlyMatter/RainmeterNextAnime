@@ -132,7 +132,7 @@ if followingReleasingAnimeCount != 0:
 nextAnimeInfoDict = {
     "anilistProfile": USERNAME,
     "anilistProfileUrl": anilistProfileUrl,
-    "followingReleasingCount": followingReleasingAnimeCount,
+    "followingReleasingCount": str(followingReleasingAnimeCount),
     "title": nextTitle,
     "titleShort": nextTitleShort,
     "episode": nextEpisode,
