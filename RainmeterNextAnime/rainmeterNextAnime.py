@@ -7,8 +7,16 @@
 import configparser
 import requests
 import json
+import sys
+import os
 
 config = configparser.ConfigParser()
+
+
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
 
 
 # Query func.
@@ -18,7 +26,7 @@ def api_request(url, query, variables):
 
 # read config file & assign values to vars for ease of use.
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read(resource_path('config.ini'))
 
 # Makes USERNAME "DoesItReallyMatter" if empty or something wrong with .ini
 try:
@@ -101,7 +109,8 @@ for i in result['data']['Page']['mediaList']:
                 nextTimeUntilAir = i['media']['nextAiringEpisode']['timeUntilAiring']
     except (TypeError):
         # TypeError sometimes, cant be arsed to look up why.
-        print("Shit hit the fan...")
+        # print("Shit hit the fan...")
+        pass
 
 # If watching releasing anime, else skip.
 if followingReleasingAnimeCount != 0:
@@ -141,7 +150,7 @@ nextAnimeInfoDict = {
 }
 
 # Create file rainmeter skin can read from, write dict as json to file.
-with open('nextAiringAnime.txt', 'w') as outfile:
+with open(resource_path('nextAiringAnime.txt'), 'w') as outfile:
     json.dump(nextAnimeInfoDict, outfile)
 
 # Rainmeter couldnt run file sometimes, Close written file and exit script. (Solved problem...i think)
